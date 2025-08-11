@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELDERXTUNER</title>
+    <link rel="stylesheet" href="Style,.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash">
+        <img src="bd131d48-fbe2-48d4-8b14-da19a94acb1c.png" alt="ELDERXTUNER Logo">
+        <h1>ELDERXTUNER</h1>
+        <p>Afinador de instrumentos de cordas</p>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div id="app" style="display: none;">
+        <header>
+            <h1>🎸 ELDERXTUNER</h1>
+            <p>Afinador de instrumentos de cordas</p>
+        </header>
+
+        <main>
+            <div class="tuner">
+                <p>Frequência Detectada:</p>
+                <h2 id="freq">-- Hz</h2>
+                <p>Nota Detectada:</p>
+                <h3 id="note">--</h3>
+
+                <!-- Ponteiro visual -->
+                <div class="gauge">
+                    <div class="needle" id="needle"></div>
+                    <div class="center"></div>
+                </div>
+
+                <button id="startBtn">🎤 Iniciar Afinador</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="AppEldexTuner.js"></script>
+</body>
+</html>
