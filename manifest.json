@@ -7,8 +7,15 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
+  "dir": "ltr",
+  "lang": "pt-BR",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "categories": [
+    "music",
+    "entertainment",
+    "utilities"
+  ],
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
