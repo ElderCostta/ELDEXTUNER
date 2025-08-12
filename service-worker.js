@@ -9,6 +9,9 @@ const urlsToCache = [
   '/icons/icon-512x512.png'
 ];
 
+// Background Sync para manter ações sincronizadas
+const BACKGROUND_SYNC_TAG = 'eldex-sync';
+
 // Instala o service worker e faz cache dos arquivos
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -48,4 +51,22 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+});
+
+// Background Sync - mantém ações sincronizadas mesmo offline
+self.addEventListener('sync', (event) => {
+  if (event.tag === BACKGROUND_SYNC_TAG) {
+    event.waitUntil(
+      // Aqui você pode adicionar lógica para sincronizar dados
+      // quando a conexão for restaurada
+      console.log('Background sync executado')
+    );
+  }
+});
+
+// Notificação quando o app volta online
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
