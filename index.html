@@ -40,20 +40,24 @@
         </main>
     </div>
 
-    <script src="AppEldexTuner.js"></script>
-    // Registra o Service Worker
+    <script src="AppEldexTuner.js">
+        <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('SW registrado com sucesso: ', registration);
-      })
-      .catch((registrationError) => {
-        console.log('SW falha no registro: ', registrationError);
-      });
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+            console.log('SW registrado com sucesso:', registration);
+        })
+        .catch((registrationError) => {
+            console.log('SW falha no registro:', registrationError);
+        });
+    });
 }
+</script>
+    
+    </script>
 </body>
 </html>
+
 
 
