@@ -8,9 +8,22 @@
   "display": "standalone",
   "orientation": "portrait",
   "dir": "ltr",
-  "lang": "pt-BR",
+  "lang": "pt",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "iarc_rating_id": "e58c174a-81d2-5c3c-32cc-34b8de4a52e9",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.eldex.tuner",
+      "id": "com.eldex.tuner"
+    }
+  ],
+  "scope_extensions": [
+    {"origin": "https://eldextuner.com"},
+    {"origin": "https://www.eldextuner.com"}
+  ],
   "categories": [
     "music",
     "entertainment",
