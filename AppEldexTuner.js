@@ -4,6 +4,17 @@ window.addEventListener("load", () => {
         document.getElementById("splash").style.display = "none";
         document.getElementById("app").style.display = "block";
     }, 3000);
+
+    // Registro do Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('SW registrado com sucesso: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW falha no registro: ', registrationError);
+            });
+    }
 });
 
 const startBtn = document.getElementById("startBtn");
@@ -46,27 +57,7 @@ function detectPitch() {
         freqDisplay.textContent = pitch.toFixed(2) + " Hz";
         const closest = findClosestNoteObj(pitch);
         noteDisplay.textContent = closest.note;
-// Exemplo de uma função que salva algo offline
-function saveOfflineAction(data) {
-  // Salva os dados no IndexedDB ou LocalStorage
-  // ...
 
-  // Se a sincronização em segundo plano é suportada, registra-a
-  if ('serviceWorker' in navigator && 'sync' in navigator.serviceWorker) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.sync.register('eldex-sync')
-        .then(() => {
-          console.log('Sincronização em segundo plano registrada.');
-        })
-        .catch(error => {
-          console.error('Falha ao registrar a sincronização:', error);
-        });
-    });
-  } else {
-    // Se não é suportado, trata de outra forma
-    console.log('Sincronização em segundo plano não suportada.');
-  }
-}
         // Ajusta ponteiro
         const diff = pitch - closest.freq;
         let angle = diff * 2; // sensibilidade
@@ -75,6 +66,28 @@ function saveOfflineAction(data) {
         needle.style.transform = `rotate(${angle}deg)`;
     }
     requestAnimationFrame(detectPitch);
+}
+
+// Exemplo de uma função que salva algo offline
+function saveOfflineAction(data) {
+    // Salva os dados no IndexedDB ou LocalStorage
+    // ...
+
+    // Se a sincronização em segundo plano é suportada, registra-a
+    if ('serviceWorker' in navigator && 'sync' in navigator.serviceWorker) {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.sync.register('eldex-sync')
+                .then(() => {
+                    console.log('Sincronização em segundo plano registrada.');
+                })
+                .catch(error => {
+                    console.error('Falha ao registrar a sincronização:', error);
+                });
+        });
+    } else {
+        // Se não é suportado, trata de outra forma
+        console.log('Sincronização em segundo plano não suportada.');
+    }
 }
 
 function autoCorrelate(buf, sampleRate) {
@@ -101,12 +114,12 @@ function autoCorrelate(buf, sampleRate) {
     let c = new Array(SIZE).fill(0);
     for (let i = 0; i < SIZE; i++) {
         for (let j = 0; j < SIZE - i; j++) {
-            c[i] = c[i] + buf[j] * buf[j+i];
+            c[i] = c[i] + buf[j] * buf[j + i];
         }
     }
 
     let d = 0; 
-    while (c[d] > c[d+1]) d++;
+    while (c[d] > c[d + 1]) d++;
     let maxval = -1, maxpos = -1;
     for (let i = d; i < SIZE; i++) {
         if (c[i] > maxval) {
@@ -124,4 +137,3 @@ function findClosestNoteObj(freq) {
         Math.abs(curr.freq - freq) < Math.abs(prev.freq - freq) ? curr : prev
     );
 }
-
