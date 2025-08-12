@@ -1,4 +1,5 @@
 {
+  "id": "eldex-tuner-app",
   "name": "Eldex Tuner",
   "short_name": "Eldex",
   "description": "Afinador musical Eldex Tuner em PWA para Android.",
@@ -8,6 +9,23 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/screenshot-2.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -21,4 +39,3 @@
     }
   ]
 }
-
