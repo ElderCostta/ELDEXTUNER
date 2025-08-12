@@ -207,25 +207,46 @@ async function syncUserData() {
   try {
     console.log('Service Worker: Sincronizando dados do usuário...');
     
-    // Aqui você adicionaria lógica para sincronizar dados
-    // Por exemplo: enviar configurações salvas, histórico, etc.
-    
-    // Simula sincronização
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Service Worker: Dados sincronizados com sucesso');
-    
-    // Notifica que a sincronização foi feita
-    const clients = await self.clients.matchAll();
-    clients.forEach(client => {
-      client.postMessage({
-        type: 'SYNC_COMPLETE',
-        data: 'Dados sincronizados com sucesso'
+    // --- Lógica para ler e enviar dados pendentes ---
+    // Esta função é chamada pelo Service Worker quando a conexão é restaurada.
+    // Ela deve ler os dados salvos localmente pelo 'saveOfflineAction'
+    // e enviá-los para o seu servidor.
+    const pendingActions = JSON.parse(localStorage.getItem('pending-actions') || '[]');
+
+    if (pendingActions.length > 0) {
+      console.log('Service Worker: Tentando enviar', pendingActions.length, 'ações pendentes.');
+      // Simula o envio para um servidor
+      const response = await fetch('/api/sync-data', { // Substitua por sua API real
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pendingActions)
       });
-    });
-    
+
+      if (response.ok) {
+        console.log('Service Worker: Dados sincronizados com sucesso!');
+        localStorage.removeItem('pending-actions'); // Limpa após o sucesso
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'SYNC_COMPLETE',
+            data: 'Dados sincronizados com sucesso'
+          });
+        });
+      } else {
+        console.error('Service Worker: Erro ao enviar dados para o servidor:', response.statusText);
+        // Opcional: Se houver erro no servidor, você pode tentar novamente mais tarde
+        // Ou notificar o usuário para tentar uma sincronização manual
+      }
+    } else {
+      console.log('Service Worker: Nenhuma ação pendente para sincronizar.');
+    }
+    // --- Fim da Lógica para ler e enviar dados pendentes ---
+
   } catch (error) {
     console.error('Service Worker: Erro na sincronização:', error);
+    // Se o erro for de rede, os dados ainda estão no localStorage para uma nova tentativa
   }
 }
 
