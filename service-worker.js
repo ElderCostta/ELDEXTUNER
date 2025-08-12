@@ -1,44 +1,51 @@
-// service-worker.js
-
-const CACHE_NAME = 'eldex-cache-v1';
+// Service Worker para Eldex Tuner
+const CACHE_NAME = 'eldex-tuner-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/style.css',
+  '/script.js',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
-// Instalando o service worker e cacheando os arquivos
-self.addEventListener('install', event => {
+// Instala o service worker e faz cache dos arquivos
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
+      .then((cache) => {
+        console.log('Cache aberto');
         return cache.addAll(urlsToCache);
       })
   );
 });
 
-// Ativando o service worker e limpando caches antigos
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => 
-      Promise.all(
-        cacheNames.filter(name => name !== CACHE_NAME)
-          .map(name => caches.delete(name))
-      )
+// Intercepta requisições e serve do cache quando offline
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Retorna do cache se encontrado, senão busca na rede
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      }
     )
   );
 });
 
-// Interceptando requisições para servir arquivos do cache
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Retorna arquivo do cache ou faz fetch na rede
-        return response || fetch(event.request);
-      })
+// Atualiza o cache quando necessário
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 });
