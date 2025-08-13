@@ -1,14 +1,15 @@
 // Nome do cache
-const CACHE_NAME = 'meu-app-cache-v1';
+const CACHE_NAME = 'eldex-tuner-cache-v1';
 
-// Arquivos para cache (adicione seus arquivos aqui)
+// Arquivos para cache
 const FILES_TO_CACHE = [
   './',
   './index.html',
   './style.css',
-  './app.js'
+  './AppEldexTuner.js',
+  './icons/icon-192x192.png',
+  './icons/icon-512x512.png'
 ];
-
 
 // Instala o Service Worker
 self.addEventListener('install', (event) => {
@@ -48,4 +49,3 @@ self.addEventListener('fetch', (event) => {
       })
   );
 });
-
