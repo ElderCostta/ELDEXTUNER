@@ -3,8 +3,9 @@
   "name": "Eldex Tuner",
   "short_name": "Eldex",
   "description": "Afinador musical Eldex Tuner em PWA para Android.",
-  "start_url": "/index.html",
-  "scope": "/",
+  "start_url": "./index.html",
+"scope": "./",
+
   "display": "standalone",
   "orientation": "portrait",
   "dir": "ltr",
@@ -59,3 +60,4 @@
     }
   ]
 }
+
