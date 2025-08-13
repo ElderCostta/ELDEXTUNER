@@ -3,11 +3,12 @@ const CACHE_NAME = 'meu-app-cache-v1';
 
 // Arquivos para cache (adicione seus arquivos aqui)
 const FILES_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js'
+  './',
+  './index.html',
+  './style.css',
+  './app.js'
 ];
+
 
 // Instala o Service Worker
 self.addEventListener('install', (event) => {
@@ -47,3 +48,4 @@ self.addEventListener('fetch', (event) => {
       })
   );
 });
+
